@@ -4,34 +4,57 @@ import (
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
 	"cogentcore.org/core/icons"
+	"cogentcore.org/core/styles"
 	"fmt"
-	"os"
-	"strconv"
 )
 
 func Main() {
-	parentWindow := core.NewBody("TITLE")
-	core.NewButton(parentWindow).SetText("BUTTON").SetIcon(icons.Add).OnClick(btnClick)
+	mainWindow := core.NewBody("MAIN")
+	ts := core.NewTabs(mainWindow)
 
-	on := true
-	core.Bind(&on, core.NewSwitch(parentWindow)).OnChange(func(e events.Event) {
-		core.MessageSnackbar(parentWindow, "Value >> "+strconv.FormatBool(on))
-	})
+	home(ts)
+	task(ts)
 
-	go func() {
-		for {
-			if !on {
-				fmt.Fprint(os.Stdout, "break\n")
-				break
-			}
-
-			fmt.Fprint(os.Stdout, "asdasd\n")
-		}
-	}()
-
-	parentWindow.RunMainWindow()
+	mainWindow.RunMainWindow()
 }
 
-func btnClick(event events.Event) {
-	fmt.Fprint(os.Stdout, "btn click")
+var str string
+var test *core.TextField
+
+func home(ts *core.Tabs) {
+	tab := ts.NewTab("Главная", icons.Home)
+	tab.Styler(func(s *styles.Style) {
+		s.CenterAll()
+	})
+
+	core.NewTextField(tab).SetPlaceholder("Название модуля")
+	core.NewTextField(tab).SetPlaceholder("Дата тестирования")
+
+	test = core.Bind(&str, core.NewTextField(tab))
+	test.SetPlaceholder("test bind data").OnFocus(foc)
+	test.OnFocusLost(unfoc)
+
+	core.NewTextField(tab).SetType(core.TextFieldOutlined).SetPlaceholder("Название модуля").AddClearButton()
+	core.NewTextField(tab).SetType(core.TextFieldOutlined).SetPlaceholder("Дата тестирования").AddClearButton()
+}
+
+func foc(e events.Event) {
+	str = "on foc"
+	test.Update()
+}
+
+func unfoc(e events.Event) {
+	str = test.Text()
+	test.Update()
+}
+
+func task(ts *core.Tabs) {
+	tab := ts.NewTab("Задачи", icons.Task)
+	tab.Styler(func(s *styles.Style) {
+		s.CenterAll()
+	})
+
+	core.NewButton(tab).OnClick(func(e events.Event) {
+		fmt.Println(str)
+	})
 }
