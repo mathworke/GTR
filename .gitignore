@@ -23,6 +23,6 @@ go.work
 *.sum
 template.go
 /content
-.gitignore
+*.json
 .gitattributes
 /.idea
