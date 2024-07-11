@@ -2,6 +2,7 @@ package ui
 
 import (
 	"cogentcore.org/core/core"
+	"cogentcore.org/core/events"
 	"cogentcore.org/core/styles"
 )
 
@@ -30,13 +31,13 @@ var (
 )
 
 type ModuleInformation struct {
-	module                      *string
+	Module                      string
 	moduleVersion, dateFirmware string
 	mainTask                    string
 }
 
-func (this *ModuleInformation) ModuleInformatio(tabs *core.Tabs) {
-	tab := tabs.NewTab("Информация о модуле")
+func (this *ModuleInformation) InitUI(groupTabs *core.Tabs) {
+	tab := groupTabs.NewTab("Информация о модуле")
 	tab.Styler(func(s *styles.Style) {
 
 	})
@@ -48,8 +49,15 @@ func (this *ModuleInformation) ModuleInformatio(tabs *core.Tabs) {
 	mainTaskTextFeild := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
 
 	// bind data
-	moduleBind = core.Bind(&this.module, moduleChooser)
-	dateFirmwareBind = core.Bind(&this.module, dateFirmwareTextField)
-	moduleVersionBind = core.Bind(&this.module, moduleVersionTextField)
-	mainTaskBind = core.Bind(&this.module, mainTaskTextFeild)
+	moduleBind = core.Bind(&this.Module, moduleChooser)
+	dateFirmwareBind = core.Bind(&this.Module, dateFirmwareTextField)
+	moduleVersionBind = core.Bind(&this.Module, moduleVersionTextField)
+	mainTaskBind = core.Bind(&this.Module, mainTaskTextFeild)
+
+	// set unfocus func
+	moduleBind.OnFocusLost(focusLost)
+}
+
+func focusLost(e events.Event) {
+	moduleBind.Update()
 }
