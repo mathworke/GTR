@@ -23,17 +23,33 @@ var (
 		{Value: "MK-576-016A", Tooltip: "Модуль аналогового ввода с HART"},
 		{Value: "MK-541-002", Tooltip: "Модуль коммуникационный RS-485"},
 	}
+	moduleBind        *core.Chooser
+	dateFirmwareBind  *core.TextField
+	moduleVersionBind *core.TextField
+	mainTaskBind      *core.TextField
 )
 
-func ModuleInformatio(tabs *core.Tabs) {
+type ModuleInformation struct {
+	module                      *string
+	moduleVersion, dateFirmware string
+	mainTask                    string
+}
+
+func (this *ModuleInformation) ModuleInformatio(tabs *core.Tabs) {
 	tab := tabs.NewTab("Информация о модуле")
 	tab.Styler(func(s *styles.Style) {
 
 	})
 
-	module := core.NewChooser(tab).SetPlaceholder("Select a fruit").SetItems(MODULE...).SetType(core.ChooserOutlined)
-	dateFirmware := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
-	moduleVersion := core.NewTextField(tab).SetPlaceholder("Версия модуля")
-	mainTask := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
+	// init components
+	moduleChooser := core.NewChooser(tab).SetPlaceholder("Select a fruit").SetItems(MODULE...).SetType(core.ChooserOutlined)
+	dateFirmwareTextField := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
+	moduleVersionTextField := core.NewTextField(tab).SetPlaceholder("Версия модуля")
+	mainTaskTextFeild := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
 
+	// bind data
+	moduleBind = core.Bind(&this.module, moduleChooser)
+	dateFirmwareBind = core.Bind(&this.module, dateFirmwareTextField)
+	moduleVersionBind = core.Bind(&this.module, moduleVersionTextField)
+	mainTaskBind = core.Bind(&this.module, mainTaskTextFeild)
 }
