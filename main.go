@@ -3,7 +3,6 @@ package main
 import (
 	"GTR/ui"
 	"cogentcore.org/core/core"
-	"fmt"
 )
 
 func main() {
@@ -13,12 +12,6 @@ func main() {
 	// init ui
 	module := ui.ModuleInformation{}
 	module.InitUI(groupTabs)
-
-	go func() {
-		for {
-			fmt.Println(module.Module)
-		}
-	}()
 
 	mainWindow.RunMainWindow()
 }
