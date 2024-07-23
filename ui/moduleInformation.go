@@ -1,6 +1,8 @@
 package ui
 
 import (
+	l "GTR/assets"
+
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
 	"cogentcore.org/core/styles"
@@ -32,32 +34,61 @@ var (
 
 type ModuleInformation struct {
 	Module                      string
-	moduleVersion, dateFirmware string
-	mainTask                    string
+	ModuleVersion, DateFirmware string
+	MainTask                    string
 }
 
-func (this *ModuleInformation) InitUI(groupTabs *core.Tabs) {
+func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger l.Logger) {
 	tab := groupTabs.NewTab("Информация о модуле")
 	tab.Styler(func(s *styles.Style) {
 
 	})
 
-	// init components
-	moduleChooser := core.NewChooser(tab).SetPlaceholder("Select a fruit").SetItems(MODULE...).SetType(core.ChooserOutlined)
+	/* init components
+
+	Initialization of necessary fields for their further rendering and information collection
+	Инициализация необходимых полей для их последующей визуализации и сбора информации
+	*/
+	logger.LogIngo(" Start initialization components\n")
+	moduleChooser := core.NewChooser(tab).SetPlaceholder("Выберите модуль").SetItems(MODULE...).SetType(core.ChooserOutlined)
 	dateFirmwareTextField := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
 	moduleVersionTextField := core.NewTextField(tab).SetPlaceholder("Версия модуля")
 	mainTaskTextFeild := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
+	logger.LogIngo(" Components initialization\n")
 
-	// bind data
-	moduleBind = core.Bind(&this.Module, moduleChooser)
-	dateFirmwareBind = core.Bind(&this.Module, dateFirmwareTextField)
-	moduleVersionBind = core.Bind(&this.Module, moduleVersionTextField)
-	mainTaskBind = core.Bind(&this.Module, mainTaskTextFeild)
+	/* bind data
 
-	// set unfocus func
-	moduleBind.OnFocusLost(focusLost)
+	Binding of fields to a variable for systematic retrieval of information from a component
+	Привязка полей к переменной для систематизированного получения информации с компонента
+	*/
+	moduleBind = core.Bind(&m.Module, moduleChooser)
+	dateFirmwareBind = core.Bind(&m.DateFirmware, dateFirmwareTextField)
+	moduleVersionBind = core.Bind(&m.ModuleVersion, moduleVersionTextField)
+	mainTaskBind = core.Bind(&m.MainTask, mainTaskTextFeild)
+
+	/* set unfocus func
+
+	!!!WFT!!! replace on most ef algorithms
+
+	*/
+	moduleBind.OnFocusLost(focusLostModule)
+	dateFirmwareBind.OnFocusLost(focusLostDateFirmware)
+	moduleVersionBind.OnFocusLost(focusLostModuleVersion)
+	mainTaskBind.OnFocusLost(focusLostMainTask)
 }
 
-func focusLost(e events.Event) {
+func focusLostModule(e events.Event) {
 	moduleBind.Update()
+}
+
+func focusLostDateFirmware(e events.Event) {
+	dateFirmwareBind.Update()
+}
+
+func focusLostModuleVersion(e events.Event) {
+	moduleVersionBind.Update()
+}
+
+func focusLostMainTask(e events.Event) {
+	mainTaskBind.Update()
 }
