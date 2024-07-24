@@ -6,6 +6,7 @@ import (
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
 	"cogentcore.org/core/styles"
+	"cogentcore.org/core/styles/units"
 )
 
 var (
@@ -38,8 +39,8 @@ type ModuleInformation struct {
 	MainTask                    string
 }
 
-func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger l.Logger) {
-	tab := groupTabs.NewTab("Информация о модуле")
+func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger *l.Logger) {
+	tab := groupTabs.NewTab("Module")
 	tab.Styler(func(s *styles.Style) {
 
 	})
@@ -49,46 +50,55 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger l.Logger) {
 	Initialization of necessary fields for their further rendering and information collection
 	Инициализация необходимых полей для их последующей визуализации и сбора информации
 	*/
-	logger.LogIngo(" Start initialization components\n")
+	logger.LogIngo(" Start initialization module informtion components\n")
 	moduleChooser := core.NewChooser(tab).SetPlaceholder("Выберите модуль").SetItems(MODULE...).SetType(core.ChooserOutlined)
 	dateFirmwareTextField := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
 	moduleVersionTextField := core.NewTextField(tab).SetPlaceholder("Версия модуля")
 	mainTaskTextFeild := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
-	logger.LogIngo(" Components initialization\n")
+	logger.LogIngo(" Module information components initialization\n")
+
+	// style components
+	moduleChooser.Styler(func(s *styles.Style) {
+
+	})
+	dateFirmwareTextField.Styler(func(s *styles.Style) {
+
+	})
+	moduleVersionTextField.Styler(func(s *styles.Style) {
+
+	})
+	mainTaskTextFeild.Styler(func(s *styles.Style) {
+		s.Gap.Y = units.Px(200)
+	})
 
 	/* bind data
 
 	Binding of fields to a variable for systematic retrieval of information from a component
 	Привязка полей к переменной для систематизированного получения информации с компонента
 	*/
+	logger.LogIngo(" Start bind data module information\n")
 	moduleBind = core.Bind(&m.Module, moduleChooser)
 	dateFirmwareBind = core.Bind(&m.DateFirmware, dateFirmwareTextField)
 	moduleVersionBind = core.Bind(&m.ModuleVersion, moduleVersionTextField)
 	mainTaskBind = core.Bind(&m.MainTask, mainTaskTextFeild)
 
-	/* set unfocus func
+	logger.LogIngo(" Module information data binded\n")
+
+	/* set text after render
 
 	!!!WFT!!! replace on most ef algorithms
-
+	Но без него не работает
 	*/
-	moduleBind.OnFocusLost(focusLostModule)
-	dateFirmwareBind.OnFocusLost(focusLostDateFirmware)
-	moduleVersionBind.OnFocusLost(focusLostModuleVersion)
-	mainTaskBind.OnFocusLost(focusLostMainTask)
+	dateFirmwareTextField.OnShow(func(e events.Event) {
+		dateFirmwareTextField.SetText(m.DateFirmware)
+	})
+	moduleVersionTextField.OnShow(func(e events.Event) {
+		moduleVersionTextField.SetText((m.ModuleVersion))
+	})
+	mainTaskTextFeild.OnShow(func(e events.Event) {
+		mainTaskTextFeild.SetText(m.MainTask)
+	})
+
 }
 
-func focusLostModule(e events.Event) {
-	moduleBind.Update()
-}
-
-func focusLostDateFirmware(e events.Event) {
-	dateFirmwareBind.Update()
-}
-
-func focusLostModuleVersion(e events.Event) {
-	moduleVersionBind.Update()
-}
-
-func focusLostMainTask(e events.Event) {
-	mainTaskBind.Update()
-}
+// maybe have most perfect algorithms... maybe using interface

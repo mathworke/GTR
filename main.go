@@ -3,12 +3,16 @@ package main
 import (
 	"GTR/assets"
 	"GTR/ui"
+	"flag"
 
 	"cogentcore.org/core/core"
 )
 
+var debug = flag.Bool("debug", false, "run in debug mode")
+
 func main() {
-	logger := assets.NewLogger(true)
+	flag.Parse()
+	logger := assets.NewLogger(*debug)
 
 	mainWindow := core.NewBody("GTR")
 
@@ -16,7 +20,10 @@ func main() {
 
 	// init ui
 	module := &ui.ModuleInformation{}
-	module.InitUI(groupTabs, *logger)
+	testCase := &ui.SelectTestCase{}
+
+	module.InitUI(groupTabs, logger)
+	testCase.InitUI(groupTabs, logger, module)
 
 	mainWindow.RunMainWindow()
 }
