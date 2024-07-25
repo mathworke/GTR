@@ -14,6 +14,7 @@ func main() {
 	flag.Parse()
 	logger := assets.NewLogger(*debug)
 
+	// init root
 	mainWindow := core.NewBody("GTR")
 
 	groupTabs := core.NewTabs(mainWindow)
@@ -23,7 +24,8 @@ func main() {
 	testCase := &ui.SelectTestCase{}
 
 	module.InitUI(groupTabs, logger)
-	testCase.InitUI(groupTabs, logger, module)
+	testCase.InitUI(groupTabs, logger, module) 
 
+	// start
 	mainWindow.RunMainWindow()
 }

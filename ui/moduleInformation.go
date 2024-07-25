@@ -4,7 +4,7 @@ import (
 	l "GTR/assets"
 
 	"cogentcore.org/core/core"
-	"cogentcore.org/core/events"
+	// "cogentcore.org/core/events"
 	"cogentcore.org/core/styles"
 	"cogentcore.org/core/styles/units"
 )
@@ -51,10 +51,12 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger *l.Logger) {
 	Инициализация необходимых полей для их последующей визуализации и сбора информации
 	*/
 	logger.LogIngo(" Start initialization module informtion components\n")
+
 	moduleChooser := core.NewChooser(tab).SetPlaceholder("Выберите модуль").SetItems(MODULE...).SetType(core.ChooserOutlined)
 	dateFirmwareTextField := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
 	moduleVersionTextField := core.NewTextField(tab).SetPlaceholder("Версия модуля")
 	mainTaskTextFeild := core.NewTextField(tab).SetPlaceholder("Основание для тестирования (№ задачи redmine)")
+
 	logger.LogIngo(" Module information components initialization\n")
 
 	// style components
@@ -62,13 +64,13 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger *l.Logger) {
 
 	})
 	dateFirmwareTextField.Styler(func(s *styles.Style) {
-
+		s.Gap.Y = units.Px(200)
 	})
 	moduleVersionTextField.Styler(func(s *styles.Style) {
-
+		s.Gap = units.XY{X: units.Px(50), Y: units.Px(50)}
 	})
 	mainTaskTextFeild.Styler(func(s *styles.Style) {
-		s.Gap.Y = units.Px(200)
+		s.Min = units.XY{Y: units.Px(25)}
 	})
 
 	/* bind data
@@ -77,27 +79,13 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, logger *l.Logger) {
 	Привязка полей к переменной для систематизированного получения информации с компонента
 	*/
 	logger.LogIngo(" Start bind data module information\n")
+
 	moduleBind = core.Bind(&m.Module, moduleChooser)
 	dateFirmwareBind = core.Bind(&m.DateFirmware, dateFirmwareTextField)
 	moduleVersionBind = core.Bind(&m.ModuleVersion, moduleVersionTextField)
 	mainTaskBind = core.Bind(&m.MainTask, mainTaskTextFeild)
 
 	logger.LogIngo(" Module information data binded\n")
-
-	/* set text after render
-
-	!!!WFT!!! replace on most ef algorithms
-	Но без него не работает
-	*/
-	dateFirmwareTextField.OnShow(func(e events.Event) {
-		dateFirmwareTextField.SetText(m.DateFirmware)
-	})
-	moduleVersionTextField.OnShow(func(e events.Event) {
-		moduleVersionTextField.SetText((m.ModuleVersion))
-	})
-	mainTaskTextFeild.OnShow(func(e events.Event) {
-		mainTaskTextFeild.SetText(m.MainTask)
-	})
 
 }
 
