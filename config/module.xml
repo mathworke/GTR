@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+    <module type="MK-501-022">
+        <description>Модуль центрального процессора</description>
+            <tests>
+                <test_case>
+                    <id>1-123</id>
+                    <title>Тестовый тест-кейс #1</title>
+                </test_case>
+                <test_case>
+                    <id>1-456</id>
+                    <title>Тестовый тест-кейс #2</title>
+                </test_case>
+                <test_case>
+                    <id>1-789</id>
+                    <title>Тестовый тест-кейс #3</title>
+                </test_case>
+            </tests>
+    </module>
+    <module type="MK-502-142">
+        <description>Модуль центрального процессора</description>
+        <tests>
+            <test_case>
+                <id>1-111</id>
+                <title>Тестовый тест-кейс #4</title>
+            </test_case>
+            <test_case>
+                <id>1-222</id>
+                <title>Тестовый тест-кейс #5</title>
+            </test_case>
+            <test_case>
+                <id>1-333</id>
+                <title>Тестовый тест-кейс #6</title>
+            </test_case>
+        </tests>
+    </module>
+    <module type="MK-503-120">
+        <description>Модуль центрального процессора</description>
+    </module>
+    <module type="MK-545-002">
+        <description>Модуль коммуникационный Powerlink</description>
+    </module>
+    <module type="MK-531-032A">
+        <description>Модуль дискретного вывода</description>
+    </module>
+    <module type="MK-532-032A">
+        <description>Модуль дискретного вывода с Namur</description>
+    </module>
+    <module type="MK-521-032A">
+        <description>Модуль дискретного ввода</description>
+    </module>
+    <module type="MK-523-032A">
+        <description>Модуль дискретного ввода с Namur</description>
+    </module>
+    <module type="MK-514-008A">
+        <description>Модуль аналогового вывода</description>
+    </module>
+    <module type="MK-513-016A">
+        <description>Модуль аналогового ввода</description>
+    </module>
+    <module type="MK-516-008A">
+        <description>Модуль аналогового ввода</description>
+    </module>
+    <module type="MK-574-008A">
+        <description>Модуль аналогового вывода с HART</description>
+    </module>
+    <module type="MK-576-008A">
+        <description>Модуль аналогового ввода с HART</description>
+    </module>
+    <module type="MK-576-016A">
+        <description>Модуль аналогового ввода с HART</description>
+    </module>
+    <module type="MK-541-002">
+        <description>Модуль коммуникационный RS-485</description>
+    </module>
+</modules>

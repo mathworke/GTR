@@ -1,11 +1,12 @@
 package ui
 
 import (
-	l "GTR/assets" // logger
-	"fmt"
+	helper "GTR/assets" // logger
+	"errors"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
+	"cogentcore.org/core/icons"
 	"cogentcore.org/core/styles"
 )
 
@@ -15,7 +16,7 @@ var (
 )
 
 const (
-	CURRENT_MODULE = "Текущие тест-кейсы для модуля: "
+	CURRENT_MODULE = "Тест-кейсы загружены для модуля: "
 )
 
 type SelectTestCase struct {
@@ -38,19 +39,18 @@ type testCaseStruct struct { //types:add
 	Comment string `width:"25"`
 }
 
-func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, logger *l.Logger, args ...interface{}) {
-	tab = groupTabs.NewTab("Test-case")
+func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, logger *helper.Logger, args ...interface{}) {
+	tab = groupTabs.NewTab("Test-case", icons.Settings)
 	tab.Styler(func(s *styles.Style) {
 
 	})
 
-	
 	/* init components
 
 	Initialization of necessary fields for their further rendering and information collection
 	Инициализация необходимых полей для их последующей визуализации и сбора информации
 	*/
-	logger.LogIngo(" Start initialization components\n")
+	logger.LogIngo("Start initialization components\n")
 
 	module := core.NewText(tab).SetType(core.TextDisplayMedium)
 	currentModule := core.NewText(tab).SetType(core.TextBodySmall)
@@ -58,8 +58,7 @@ func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, logger *l.Logger, args ...
 	tbl := make([]*testCaseStruct, 0)
 	testCaseTable = core.NewTable(tab).SetSlice(&tbl)
 
-	logger.LogIngo(" Components initialization\n")
-
+	logger.LogIngo("Components initialization\n")
 
 	/* bind data
 
@@ -69,30 +68,65 @@ func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, logger *l.Logger, args ...
 	moduleBind := &args[0].(*ModuleInformation).Module
 	core.Bind(moduleBind, module)
 
-
 	// click button command
 	refreshTestCase.OnClick(func(e events.Event) {
 		s.Module = module.Text
 		currentModule.SetText(CURRENT_MODULE + s.Module).Update()
-		s.RenderTestCase(logger)
+		s.RenderTestCase(xmlConf, logger)
 	})
 }
 
-func getTestCase() {
-
-}
-
 /* render test case table
-*/
-func (s *SelectTestCase) RenderTestCase(logger *l.Logger) {
-	logger.LogIngo(" rendering test-case...")
+ */
+func (s *SelectTestCase) RenderTestCase(xmlConf *helper.Modules, logger *helper.Logger) {
+	logger.LogIngo("rendering test-case...")
 
-	tbl := make([]*testCaseStruct, 50)
+	id, err := getIdModule(s.Module, xmlConf)
+	if err != nil {
+		logger.LogError(err.Error())
+		core.MessageSnackbar(tab, "Выбранный модуль не добавлен в конфигурацию.")
+		clearSlice()
+		return
+	}
+
+	if len(xmlConf.Modules[id].Tests.TestCase) == 0 {
+		logger.LogError("not add test-case for %v", s.Module)
+		core.MessageSnackbar(tab, "Для выбранного модуля не добавлены тест-кейсы в конфигурационный файл.")
+		clearSlice()
+		return
+	}
+
+	tbl := make([]*testCaseStruct, len(xmlConf.Modules[id].Tests.TestCase))
+
 	for i := range tbl {
-		ts := &testCaseStruct{TestCase: fmt.Sprintf("1-12%v", i)}
+		ts := newTestCase(xmlConf.Modules[id].Tests.TestCase[i].Id)
 		tbl[i] = ts
 	}
-	testCaseTable.SetSlice(&tbl)
 
-	logger.LogIngo(" rendered test-case is complete")
+	testCaseTable.SetSlice(&tbl).UpdateSliceSize()
+	logger.LogIngo("rendered test-case is complete")
+}
+
+func clearSlice() {
+	tbl := make([]*testCaseStruct, 0)
+	testCaseTable.SetSlice(&tbl).UpdateSliceSize()
+}
+
+func newTestCase(name string) (testCase *testCaseStruct) {
+	return &testCaseStruct{
+		Done:     false,
+		TestCase: name,
+		Tester:   "",
+		Comment:  "",
+	}
+}
+
+func getIdModule(module string, xmlConf *helper.Modules) (int, error) {
+	for index, item := range xmlConf.Modules {
+		if item.Type == module {
+			return index, nil
+		}
+	}
+
+	return -1, errors.New("not found source module")
 }
