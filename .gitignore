@@ -28,3 +28,4 @@ template.go
 .gitattributes
 /.idea
 /logs
+/docs
