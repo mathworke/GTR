@@ -20,7 +20,6 @@
 # Go workspace file
 # for build go build -ldflags -H=windowsgui .
 go.work
-*.sum
 template.go
 /content
 *.json
