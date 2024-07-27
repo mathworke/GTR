@@ -1,8 +1,9 @@
 package ui
 
 import (
-	helper "GTR/assets" // logger
 	"errors"
+
+	helper "github.com/mathworke/GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"

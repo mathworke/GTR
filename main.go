@@ -1,9 +1,10 @@
 package main
 
 import (
-	"GTR/assets"
-	"GTR/ui"
 	"flag"
+
+	"github.com/mathworke/GTR/assets"
+	"github.com/mathworke/GTR/ui"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"

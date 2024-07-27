@@ -1,7 +1,7 @@
 package ui
 
 import (
-	helper "GTR/assets"
+	helper "github.com/mathworke/GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/icons"

@@ -1,14 +1,16 @@
 package main
 
 import (
-	"GTR/assets"
-	"GTR/ui"
 	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
+
+	"github.com/mathworke/GTR/ui"
+
+	"github.com/mathworke/GTR/assets"
 )
 
 type Data struct {
