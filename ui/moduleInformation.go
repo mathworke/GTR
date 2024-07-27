@@ -1,8 +1,7 @@
 package ui
 
 import (
-	"GTR/assets"
-	l "GTR/assets"
+	helper "GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/icons"
@@ -18,15 +17,17 @@ var (
 	dateFirmwareBind  *core.TextField
 	moduleVersionBind *core.TextField
 	useProjectBind    *core.TextField
+	dateTestingBind   *core.TextField
 )
 
 type ModuleInformation struct {
 	Module                      string
 	ModuleVersion, DateFirmware string
+	DateTesting                 string
 	UseProject                  string
 }
 
-func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, xmlConf *assets.Modules, logger *l.Logger) {
+func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, logger *helper.Logger) {
 	m.loadData(xmlConf)
 
 	tab := groupTabs.NewTab("Модуль", icons.Info)
@@ -42,9 +43,10 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, xmlConf *assets.Modules
 	logger.LogIngo("Start initialization module information components\n")
 
 	moduleChooser := core.NewChooser(tab).SetPlaceholder("Выберите модуль").SetItems(MODULE...).SetType(core.ChooserOutlined)
+	dateTestingTextField := core.NewTextField(tab).SetPlaceholder("Дата тестирования")
 	dateFirmwareTextField := core.NewTextField(tab).SetPlaceholder("Дата выхода прошивки")
 	moduleVersionTextField := core.NewTextField(tab).SetPlaceholder("Версия модуля")
-	useProjectTextFeild := core.NewTextField(tab).SetPlaceholder("Использованный проект")
+	useProjectTextField := core.NewTextField(tab).SetPlaceholder("Использованный проект")
 
 	logger.LogIngo("Module information components initialization\n")
 
@@ -67,15 +69,16 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, xmlConf *assets.Modules
 	logger.LogIngo("Start bind data module information\n")
 
 	moduleBind = core.Bind(&m.Module, moduleChooser)
+	dateTestingTextField = core.Bind(&m.DateTesting, dateTestingTextField)
 	dateFirmwareBind = core.Bind(&m.DateFirmware, dateFirmwareTextField)
 	moduleVersionBind = core.Bind(&m.ModuleVersion, moduleVersionTextField)
-	useProjectBind = core.Bind(&m.UseProject, useProjectTextFeild)
+	useProjectBind = core.Bind(&m.UseProject, useProjectTextField)
 
 	logger.LogIngo("Module information data binded\n")
 
 }
 
-func (m *ModuleInformation) loadData(xmlConf *assets.Modules) {
+func (m *ModuleInformation) loadData(xmlConf *helper.Modules) {
 	for i := 0; i < len(xmlConf.Modules); i++ {
 		MODULE = append(MODULE, core.ChooserItem{Value: xmlConf.Modules[i].Type, Tooltip: xmlConf.Modules[i].Description})
 	}

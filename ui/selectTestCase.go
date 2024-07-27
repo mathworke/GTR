@@ -21,22 +21,14 @@ const (
 
 type SelectTestCase struct {
 	Module           string
-	CompleteTestCase [][]string
+	CompleteTestCase [][]testCaseStruct // 0 - test passed ; 1 - test failed
 }
 
-type testCaseStruct struct { //types:add
-
-	// test case status
-	Done bool `width:"25"`
-
-	// title test case
+type testCaseStruct struct {
+	Done     bool   `width:"25"`
 	TestCase string `width:"25"`
-
-	// a tester
-	Tester string `width:"25"`
-
-	// comment for test-case
-	Comment string `width:"25"`
+	Tester   string `width:"25"`
+	Comment  string `width:"25"`
 }
 
 func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, logger *helper.Logger, args ...interface{}) {
@@ -58,8 +50,6 @@ func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, l
 	tbl := make([]*testCaseStruct, 0)
 	testCaseTable = core.NewTable(tab).SetSlice(&tbl)
 
-	logger.LogIngo("Components initialization\n")
-
 	/* bind data
 
 	Binding of fields to a variable for systematic retrieval of information from a component
@@ -68,12 +58,16 @@ func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, l
 	moduleBind := &args[0].(*ModuleInformation).Module
 	core.Bind(moduleBind, module)
 
+	logger.LogIngo("bind data complete")
+
 	// click button command
 	refreshTestCase.OnClick(func(e events.Event) {
 		s.Module = module.Text
 		currentModule.SetText(CURRENT_MODULE + s.Module).Update()
 		s.RenderTestCase(xmlConf, logger)
 	})
+
+	logger.LogIngo("Components initialization\n")
 }
 
 /* render test case table
@@ -99,6 +93,7 @@ func (s *SelectTestCase) RenderTestCase(xmlConf *helper.Modules, logger *helper.
 	tbl := make([]*testCaseStruct, len(xmlConf.Modules[id].Tests.TestCase))
 
 	for i := range tbl {
+		logger.LogIngo("create test-case #%v for %v", xmlConf.Modules[id].Tests.TestCase[i].Id, xmlConf.Modules[id].Type)
 		ts := newTestCase(xmlConf.Modules[id].Tests.TestCase[i].Id)
 		tbl[i] = ts
 	}
@@ -129,4 +124,21 @@ func getIdModule(module string, xmlConf *helper.Modules) (int, error) {
 	}
 
 	return -1, errors.New("not found source module")
+}
+
+func (t *SelectTestCase) GetTestCase(logger *helper.Logger) {
+	logger.LogIngo("start GetTestCase()")
+	s := testCaseTable.Slice.(*[]*testCaseStruct)
+	t.CompleteTestCase = make([][]testCaseStruct, 2)
+	t.CompleteTestCase[0] = make([]testCaseStruct, 0)
+	t.CompleteTestCase[1] = make([]testCaseStruct, 0)
+	for _, v := range *s {
+		logger.LogIngo("processing test-case %v...", v)
+		if v.Done {
+			t.CompleteTestCase[0] = append(t.CompleteTestCase[0], *v)
+		} else {
+			t.CompleteTestCase[1] = append(t.CompleteTestCase[1], *v)
+		}
+	}
+	logger.LogIngo("end GetTestCase()")
 }

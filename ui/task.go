@@ -26,6 +26,7 @@ type Change struct {
 }
 
 func (t *Task) InitUI(groupTabs *core.Tabs, logger *helper.Logger) {
+	logger.LogIngo("Start initialization task components\n")
 	tabTask = groupTabs.NewTab("Задача", icons.Task)
 
 	/* init components
@@ -40,13 +41,13 @@ func (t *Task) InitUI(groupTabs *core.Tabs, logger *helper.Logger) {
 	addChanged := core.NewButton(btnFrame).SetText("Добавить изменение")
 	addChanged.SetTooltip("Добавить дополнительное поле для ввода изменения.")
 
-	reset := core.NewButton(btnFrame).SetIcon(icons.Reset)
-	reset.SetTooltip("Сбросить поля дефектов")
+	resetTask := core.NewButton(btnFrame).SetIcon(icons.Reset)
+	resetTask.SetTooltip("Сбросить поля изменений.")
 
 	sl := make([]*Change, 0)
-	// tmp := Change{Bug: ""}
-	// sl[0] = &tmp
 	changedList = core.NewTable(tabTask).SetSlice(&sl)
+
+	logger.LogIngo("components initialozation")
 
 	/* styling components
 
@@ -62,27 +63,33 @@ func (t *Task) InitUI(groupTabs *core.Tabs, logger *helper.Logger) {
 	*/
 	mainTaskBind = core.Bind(&t.MainTask, mainTaskTextField)
 
+	logger.LogIngo("data binded")
+
 	// click button command
 	addChanged.OnClick(func(e events.Event) {
-		addChangedField()
-		t.FillChanged()
+		logger.LogIngo("func task.addChanged.OnClick() starting")
+		addChangedField(logger)
+		t.FillChanged(logger)
 	})
 
-	reset.OnClick(func(e events.Event) {
+	resetTask.OnClick(func(e events.Event) {
+		logger.LogIngo("func task.reset.OnClick() starting")
 		cur := changedList.Slice.(*[]*Change)
 		*cur = make([]*Change, 0)
 		changedList.Update()
 	})
 }
 
-func (t *Task) FillChanged() {
+func (t *Task) FillChanged(logger *helper.Logger) {
+	logger.LogIngo("starting FillChanged")
 	t.Changed = make([]string, 0)
 	for _, v := range *changedList.Slice.(*[]*Change) {
 		t.Changed = append(t.Changed, v.Bug)
 	}
 }
 
-func addChangedField() {
+func addChangedField(logger *helper.Logger) {
+	logger.LogIngo("task.addChangedField() start")
 	cur := changedList.Slice.(*[]*Change)
 	tmp := Change{Bug: ""}
 	*cur = append(*cur, &tmp)
