@@ -1,7 +1,7 @@
 package ui
 
 import (
-	helper "github.com/mathworke/GTR/assets"
+	helper "GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
@@ -22,7 +22,7 @@ type Task struct {
 }
 
 type Change struct {
-	Bug string
+	Изменение string
 }
 
 func (t *Task) InitUI(groupTabs *core.Tabs, logger *helper.Logger) {
@@ -84,14 +84,14 @@ func (t *Task) FillChanged(logger *helper.Logger) {
 	logger.LogIngo("starting FillChanged")
 	t.Changed = make([]string, 0)
 	for _, v := range *changedList.Slice.(*[]*Change) {
-		t.Changed = append(t.Changed, v.Bug)
+		t.Changed = append(t.Changed, v.Изменение)
 	}
 }
 
 func addChangedField(logger *helper.Logger) {
 	logger.LogIngo("task.addChangedField() start")
 	cur := changedList.Slice.(*[]*Change)
-	tmp := Change{Bug: ""}
+	tmp := Change{Изменение: ""}
 	*cur = append(*cur, &tmp)
 	changedList.Update()
 }

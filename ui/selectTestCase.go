@@ -1,9 +1,8 @@
 package ui
 
 import (
+	helper "GTR/assets" // logger
 	"errors"
-
-	helper "github.com/mathworke/GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
@@ -26,12 +25,14 @@ type SelectTestCase struct {
 }
 
 type testCaseStruct struct {
-	Done     bool   `width:"25"`
-	TestCase string `width:"25"`
-	Tester   string `width:"25"`
-	Comment  string `width:"25"`
+	Пройден       bool   `width:"25"`
+	Номер         string `width:"25"`
+	Ответственный string `width:"25"`
+	Комментарий   string `width:"25"`
 }
 
+/* init ui page
+*/
 func (s *SelectTestCase) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules, logger *helper.Logger, args ...interface{}) {
 	tab = groupTabs.NewTab("Test-case", icons.Settings)
 	tab.Styler(func(s *styles.Style) {
@@ -110,10 +111,10 @@ func clearSlice() {
 
 func newTestCase(name string) (testCase *testCaseStruct) {
 	return &testCaseStruct{
-		Done:     false,
-		TestCase: name,
-		Tester:   "",
-		Comment:  "",
+		Пройден:       false,
+		Номер:         name,
+		Ответственный: "",
+		Комментарий:   "",
 	}
 }
 
@@ -135,7 +136,7 @@ func (t *SelectTestCase) GetTestCase(logger *helper.Logger) {
 	t.CompleteTestCase[1] = make([]testCaseStruct, 0)
 	for _, v := range *s {
 		logger.LogIngo("processing test-case %v...", v)
-		if v.Done {
+		if v.Пройден {
 			t.CompleteTestCase[0] = append(t.CompleteTestCase[0], *v)
 		} else {
 			t.CompleteTestCase[1] = append(t.CompleteTestCase[1], *v)

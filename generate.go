@@ -1,16 +1,14 @@
 package main
 
 import (
+	"GTR/assets"
+	"GTR/ui"
 	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
-
-	"github.com/mathworke/GTR/ui"
-
-	"github.com/mathworke/GTR/assets"
 )
 
 type Data struct {
@@ -22,7 +20,7 @@ type Data struct {
 	Tester        string              `json:"tester"`
 	UsingProject  string              `json:"using_project"`
 	MainTask      string              `json:"main_task"`
-	TaskChanged   *[]string           `json:"taskChanged"`
+	TaskChanged   []string            `json:"taskChanged"`
 	TestCases     []map[string]string `json:"testCases"`
 	Bugs          []map[string]string `json:"createBug"`
 	Comment       string              `json:"comment"`
@@ -41,6 +39,7 @@ func (r *Report) Generate(comment string, release bool, person *assets.Person, l
 
 	// Setup
 	r.Task.FillChanged(logger)
+	r.Bugs.FillBugs(logger)
 
 	data := Data{
 		Module:        r.Modules.Module,
@@ -51,7 +50,7 @@ func (r *Report) Generate(comment string, release bool, person *assets.Person, l
 		Tester:        person.Fio,
 		UsingProject:  r.Modules.UseProject,
 		MainTask:      r.Task.MainTask,
-		TaskChanged:   &r.Task.Changed,
+		TaskChanged:   *r.getTaskChanged(),
 		TestCases:     *r.getTestCase(),
 		Bugs:          *r.getBugs(),
 		Comment:       comment,
@@ -69,7 +68,7 @@ func (r *Report) Generate(comment string, release bool, person *assets.Person, l
 		logger.PANIC(err.Error())
 	}
 
-	err = os.WriteFile("data.json", file, 0644)
+	err = os.WriteFile("assets/data.json", file, 0644)
 	if err != nil {
 		logger.PANIC(err.Error())
 	}
@@ -97,8 +96,17 @@ func (r *Report) Generate(comment string, release bool, person *assets.Person, l
 
 	logger.LogIngo("report generated")
 
-	cmd = exec.Command("cmd", fmt.Sprintf("/C start docs/%v", <-filename))
-	cmd.Run()
+	msg := <-filename
+	if string(msg[:3]) == "err" {
+		logger.PANIC("Error completing python script\n%v\n", msg)
+	} else {
+		cmd = exec.Command("cmd", fmt.Sprintf("/C start docs/%v", msg))
+		cmd.Run()
+	}
+}
+
+func (r *Report) getTaskChanged() *[]string {
+	return &r.Task.Changed
 }
 
 func (r *Report) getTestCase() *[]map[string]string {
@@ -107,14 +115,14 @@ func (r *Report) getTestCase() *[]map[string]string {
 		delta := len(testCases)
 		testCases = append(testCases, make(map[string]string))
 
-		testCases[delta]["label"] = item.TestCase
-		if item.Done {
+		testCases[delta]["label"] = item.Номер
+		if item.Пройден {
 			testCases[delta]["status"] = "Пройден"
 		} else {
 			testCases[delta]["status"] = "Не пройден"
 		}
-		testCases[delta]["tester"] = item.Tester
-		testCases[delta]["comment"] = item.Comment
+		testCases[delta]["tester"] = item.Ответственный
+		testCases[delta]["comment"] = item.Комментарий
 
 	} // test passed
 
@@ -122,14 +130,14 @@ func (r *Report) getTestCase() *[]map[string]string {
 		delta := len(testCases)
 		testCases = append(testCases, make(map[string]string))
 
-		testCases[delta]["label"] = item.TestCase
-		if item.Done {
+		testCases[delta]["label"] = item.Номер
+		if item.Пройден {
 			testCases[delta]["status"] = "Пройден"
 		} else {
 			testCases[delta]["status"] = "Не пройден"
 		}
-		testCases[delta]["tester"] = item.Tester
-		testCases[delta]["comment"] = item.Comment
+		testCases[delta]["tester"] = item.Ответственный
+		testCases[delta]["comment"] = item.Комментарий
 
 	} // test failes
 

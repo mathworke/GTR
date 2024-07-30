@@ -1,7 +1,7 @@
 package ui
 
 import (
-	helper "github.com/mathworke/GTR/assets"
+	helper "GTR/assets"
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/events"
@@ -69,4 +69,12 @@ func addBugField(logger *helper.Logger) {
 
 func newBugField() *bugField {
 	return &bugField{}
+}
+
+func (c *CreateBug) FillBugs(logger *helper.Logger) {
+	logger.LogIngo("starting FillChanged")
+	c.Bugs = make([]bugField, 0)
+	for _, v := range *bugList.Slice.(*[]*bugField) {
+		c.Bugs = append(c.Bugs, *v)
+	}
 }

@@ -54,10 +54,8 @@ func (l *Logger) LogError(format string, args ...any) {
 }
 
 func (l *Logger) PANIC(format string, args ...any) {
-	if l.logging {
-		l.logError.Panicf(" "+format, args...)
-		panic(format)
-	}
+	l.logError.Panicf(" "+format, args...)
+	os.Exit(1)
 }
 
 // struct for config file
