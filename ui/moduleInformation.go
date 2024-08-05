@@ -5,19 +5,20 @@ import (
 
 	"cogentcore.org/core/core"
 	"cogentcore.org/core/icons"
-
-	// "cogentcore.org/core/events"
 	"cogentcore.org/core/styles"
 	"cogentcore.org/core/styles/units"
 )
 
 var (
-	MODULE            = make([]core.ChooserItem, 0)
-	moduleBind        *core.Chooser
-	dateFirmwareBind  *core.TextField
-	moduleVersionBind *core.TextField
-	useProjectBind    *core.TextField
-	dateTestingBind   *core.TextField
+	MODULE = make([]core.ChooserItem, 0)
+
+/* unused variable
+moduleBind        *core.Chooser
+dateFirmwareBind  *core.TextField
+moduleVersionBind *core.TextField
+useProjectBind    *core.TextField
+dateTestingBind   *core.TextField
+*/
 )
 
 type ModuleInformation struct {
@@ -68,11 +69,11 @@ func (m *ModuleInformation) InitUI(groupTabs *core.Tabs, xmlConf *helper.Modules
 	*/
 	logger.LogIngo("Start bind data module information\n")
 
-	moduleBind = core.Bind(&m.Module, moduleChooser)
-	dateTestingTextField = core.Bind(&m.DateTesting, dateTestingTextField)
-	dateFirmwareBind = core.Bind(&m.DateFirmware, dateFirmwareTextField)
-	moduleVersionBind = core.Bind(&m.ModuleVersion, moduleVersionTextField)
-	useProjectBind = core.Bind(&m.UseProject, useProjectTextField)
+	_ = core.Bind(&m.Module, moduleChooser)                 // moduleBind
+	_ = core.Bind(&m.DateTesting, dateTestingTextField)     // dateTestingBind
+	_ = core.Bind(&m.DateFirmware, dateFirmwareTextField)   // dateFirmwareBind
+	_ = core.Bind(&m.ModuleVersion, moduleVersionTextField) // moduleVersionBind
+	_ = core.Bind(&m.UseProject, useProjectTextField)       // useProjectBind
 
 	logger.LogIngo("Module information data binded\n")
 

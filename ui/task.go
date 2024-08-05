@@ -11,9 +11,8 @@ import (
 )
 
 var (
-	tabTask      *core.Frame
-	mainTaskBind *core.TextField
-	changedList  *core.Table
+	tabTask     *core.Frame
+	changedList *core.Table
 )
 
 type Task struct {
@@ -61,7 +60,7 @@ func (t *Task) InitUI(groupTabs *core.Tabs, logger *helper.Logger) {
 	Binding of fields to a variable for systematic retrieval of information from a component
 	Привязка полей к переменной для систематизированного получения информации с компонента
 	*/
-	mainTaskBind = core.Bind(&t.MainTask, mainTaskTextField)
+	_ = core.Bind(&t.MainTask, mainTaskTextField)
 
 	logger.LogIngo("data binded")
 
