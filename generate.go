@@ -111,36 +111,39 @@ func (r *Report) getTaskChanged() *[]string {
 
 func (r *Report) getTestCase() *[]map[string]string {
 	testCases := make([]map[string]string, 0)
-	for _, item := range r.TestCase.CompleteTestCase[0] {
-		delta := len(testCases)
-		testCases = append(testCases, make(map[string]string))
+	for _, pass := range r.TestCase.CompleteTestCase {
+		for _, item := range pass {
+			delta := len(testCases)
+			testCases = append(testCases, make(map[string]string))
 
-		testCases[delta]["label"] = item.Номер
-		if item.Пройден {
-			testCases[delta]["status"] = "Пройден"
-		} else {
-			testCases[delta]["status"] = "Не пройден"
+			testCases[delta]["label"] = item.Номер
+			if item.Пройден {
+				testCases[delta]["status"] = "Пройден"
+			} else {
+				testCases[delta]["status"] = "Не пройден"
+			}
+			testCases[delta]["tester"] = item.Ответственный
+			testCases[delta]["comment"] = item.Комментарий
+
 		}
-		testCases[delta]["tester"] = item.Ответственный
-		testCases[delta]["comment"] = item.Комментарий
+	} // [0] - passed; [1] - failed
 
-	} // test passed
+	/*
+		for _, item := range r.TestCase.CompleteTestCase[1] {
+			delta := len(testCases)
+			testCases = append(testCases, make(map[string]string))
 
-	for _, item := range r.TestCase.CompleteTestCase[1] {
-		delta := len(testCases)
-		testCases = append(testCases, make(map[string]string))
+			testCases[delta]["label"] = item.Номер
+			if item.Пройден {
+				testCases[delta]["status"] = "Пройден"
+			} else {
+				testCases[delta]["status"] = "Не пройден"
+			}
+			testCases[delta]["tester"] = item.Ответственный
+			testCases[delta]["comment"] = item.Комментарий
 
-		testCases[delta]["label"] = item.Номер
-		if item.Пройден {
-			testCases[delta]["status"] = "Пройден"
-		} else {
-			testCases[delta]["status"] = "Не пройден"
-		}
-		testCases[delta]["tester"] = item.Ответственный
-		testCases[delta]["comment"] = item.Комментарий
-
-	} // test failes
-
+		} // test failes
+	*/
 	return &testCases
 }
 

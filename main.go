@@ -34,10 +34,10 @@ func main() {
 	groupTabs := core.NewTabs(mainWindow)
 
 	// init ui
-	module := &ui.ModuleInformation{}
-	testCase := &ui.SelectTestCase{}
-	task := &ui.Task{}
-	createBug := &ui.CreateBug{}
+	module := new(ui.ModuleInformation)
+	testCase := new(ui.SelectTestCase)
+	task := new(ui.Task)
+	createBug := new(ui.CreateBug)
 
 	module.InitUI(groupTabs, conf, logger)
 	task.InitUI(groupTabs, logger)
