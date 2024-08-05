@@ -23,4 +23,5 @@ go.work
 *.mod
 *.sum
 *.json
+/logs
 .gitattributes
