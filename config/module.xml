@@ -2,20 +2,39 @@
 <modules>
     <module type="MK-501-022">
         <description>Модуль центрального процессора</description>
-            <tests>
-                <test_case>
-                    <id>1-123</id>
-                    <title>Тестовый тест-кейс #1</title>
-                </test_case>
-                <test_case>
-                    <id>1-456</id>
-                    <title>Тестовый тест-кейс #2</title>
-                </test_case>
-                <test_case>
-                    <id>1-789</id>
-                    <title>Тестовый тест-кейс #3</title>
-                </test_case>
-            </tests>
+    </module>
+    <module type="MK-550-024">
+        <description>Модуль источника питания</description>
+        <tests>
+            <test_case>
+                <id>10-1</id>
+                <title>Переключение terminator</title>
+            </test_case>
+            <test_case>
+                <id>10-2</id>
+                <title>Изменение параметра ADDRESS</title>
+            </test_case>
+            <test_case>
+                <id>10-3</id>
+                <title>Диагностика модуля</title>
+            </test_case>
+            <test_case>
+                <id>10-4</id>
+                <title>Изменение параметра BITRATE</title>
+            </test_case>
+            <test_case>
+                <id>10-5</id>
+                <title>Резервирование модуля</title>
+            </test_case>
+            <test_case>
+                <id>10-6</id>
+                <title>Просмотр Error Frame</title>
+            </test_case>
+            <test_case>
+                <id>10-7</id>
+                <title>Отключение модуля MK-550-024 от задней CAN-шины</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-502-142">
         <description>Модуль центрального процессора</description>
@@ -42,33 +61,290 @@
     </module>
     <module type="MK-531-032A">
         <description>Модуль дискретного вывода</description>
+        <tests>
+            <test_case>
+                <id>10-49</id>
+                <title>Запрещение/разрешение выходных каналов модуля MK-531-032A</title>
+            </test_case>
+            <test_case>
+                <id>10-50</id>
+                <title>Режим работы каналов MK-531-032A при потери связи с CPU</title>
+            </test_case>
+            <test_case>
+                <id>10-51</id>
+                <title>Диагностика модуля MK-531-032A</title>
+            </test_case>
+            <test_case>
+                <id>10-52</id>
+                <title>Флаги готовности работы модуля MK-531-032A</title>
+            </test_case>
+            <test_case>
+                <id>10-53</id>
+                <title>Режим инверсии работы каналов MK-531-032A</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-532-032A">
         <description>Модуль дискретного вывода с Namur</description>
+        <tests>
+            <test_case>
+                <id>10-28</id>
+                <title>Режим работы каналов при потери связи с CPU</title>
+            </test_case>
+            <test_case>
+                <id>10-29</id>
+                <title>Потеря питания на группе каналов</title>
+            </test_case>
+            <test_case>
+                <id>10-30</id>
+                <title>Проверка стандартных параметров DO</title>
+            </test_case>
+            <test_case>
+                <id>10-31</id>
+                <title>Дребезг пуш-клемы</title>
+            </test_case>
+            <test_case>
+                <id>10-32</id>
+                <title>Проверка работы стандартных параметров DO в режиме резервирования</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-521-032A">
         <description>Модуль дискретного ввода</description>
+        <tests>
+            <test_case>
+                <id>10-13</id>
+                <title>Запрет/разрешение работы каналов модуля MK-521-032A</title>
+            </test_case>
+            <test_case>
+                <id>10-14</id>
+                <title>Режим инверсии каналов</title>
+            </test_case>
+            <test_case>
+                <id>10-15</id>
+                <title>Работа флага "Trigger" и "rsTrigger"</title>
+            </test_case>
+            <test_case>
+                <id>10-16</id>
+                <title>Режим работы параметра BounceTime</title>
+            </test_case>
+            <test_case>
+                <id>10-17</id>
+                <title>Флаги готовности работы модуля</title>
+            </test_case>
+            <test_case>
+                <id>10-18</id>
+                <title>Шторм CAN модуля</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-523-032A">
         <description>Модуль дискретного ввода с Namur</description>
+        <tests>
+            <test_case>
+                <id>10-20</id>
+                <title>Определение подключенного терминального кабеля</title>
+            </test_case>
+            <test_case>
+                <id>10-21</id>
+                <title>Проверка работы обрыва на входных каналах</title>
+            </test_case>
+            <test_case>
+                <id>10-22</id>
+                <title>Проверка определения логического уровня на входах каналов</title>
+            </test_case>
+            <test_case>
+                <id>10-23</id>
+                <title>Запрет/разщрешение работы каналов</title>
+            </test_case>
+            <test_case>
+                <id>10-24</id>
+                <title>Режим инверсии входного канала</title>
+            </test_case>
+            <!-- reserve -->
+            <test_case>
+                <id>10-25</id>
+                <title>Диагностика модуля MK-523-032A в резерве</title>
+            </test_case>
+            <test_case>
+                <id>10-26</id>
+                <title>Флаги готовности работы модуля</title>
+            </test_case>
+            <test_case>
+                <id>10-27</id>
+                <title>Определение подключенного терминального кабеля в резерве</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-514-008A">
         <description>Модуль аналогового вывода</description>
+        <tests>
+            <test_case>
+                <id>10-60</id>
+                <title>Запрещение/разрешение работы аналогового выходного канала</title>
+            </test_case>
+            <test_case>
+                <id>10-61</id>
+                <title>Передача выходными каналами в модуль значения аналогового выхода в поле output</title>
+            </test_case>
+            <test_case>
+                <id>10-62</id>
+                <title>Режим работы канала аналогового вывода</title>
+            </test_case>
+            <test_case>
+                <id>10-63</id>
+                <title>Режим работы канала при потере модулей аналогового вывода связи с модулем CPU</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-513-016A">
         <description>Модуль аналогового ввода</description>
+        <tests>
+            <test_case>
+                <id>10-94</id>
+                <title>Возвращение текущего значения аналогового входа</title>
+            </test_case>
+            <test_case>
+                <id>10-95</id>
+                <title>Запрещение/разрешение работы аналогового выходного канала</title>
+            </test_case>
+            <test_case>
+                <id>10-96</id>
+                <title>Колебание значений каналов входного аналогового модуля в пределах допустимой погрешности</title>
+            </test_case>
+            <test_case>
+                <id>10-97</id>
+                <title>Фильтр нижних частот</title>
+            </test_case>
+            <test_case>
+                <id>10-98</id>
+                <title>Режим работы канала аналогового ввода</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-516-008A">
         <description>Модуль аналогового ввода</description>
+        <tests>
+            <test_case>
+                <id>10-124</id>
+                <title>Запрещение/разрешение работы аналогового входного канала</title>
+            </test_case>
+            <test_case>
+                <id>10-125</id>
+                <title>Возвращение текущего значения аналогового входа</title>
+            </test_case>
+            <test_case>
+                <id>10-126</id>
+                <title>Колебание значений каналов входного аналогового модуля в пределах допустимой погрешности</title>
+            </test_case>
+            <test_case>
+                <id>10-127</id>
+                <title>Режим работы канала аналогоого ввода</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-574-008A">
         <description>Модуль аналогового вывода с HART</description>
+        <tests>
+            <test_case>
+                <id>10-83</id>
+                <title>Режим работы канала аналогового вывода</title>
+            </test_case>
+            <test_case>
+                <id>10-82</id>
+                <title>Воспроизведение выходными каналами аналогового сигнала</title>
+            </test_case>
+            <test_case>
+                <id>10-84</id>
+                <title>Запрещение/разрешение работы канала аналогового вывода</title>
+            </test_case>
+            <test_case>
+                <id>10-87</id>
+                <title>Передача оперативных данных по протоколу HART</title>
+            </test_case>
+            <test_case>
+                <id>10-88</id>
+                <title>Работа с внешними PDM-системами</title>
+            </test_case>
+            <test_case>
+                <id>10-85</id>
+                <title>Аварийный режим работа канала</title>
+            </test_case>
+            <!-- резерв -->
+            <test_case>
+                <id>10-72</id>
+                <title>Переменная hart_control_</title>
+            </test_case>
+            <test_case>
+                <id>10-75</id>
+                <title>ErrMode, ErrValue в резерве</title>
+            </test_case>
+            <test_case>
+                <id>10-77</id>
+                <title>MK-574-008A в резерве в режиме ХХ</title>
+            </test_case>
+            <test_case>
+                <id>10-78</id>
+                <title>MK-574-008A в резерве с нагрузкой на все каналы</title>
+            </test_case>
+            <test_case>
+                <id>10-79</id>
+                <title>MK-574-008A в резерве с нагрузкой на половину каналов</title>
+            </test_case>
+            <test_case>
+                <id>10-80</id>
+                <title>MK-574-008A тесты обрыва связи с ЦАП</title>
+            </test_case>
+            <test_case>
+                <id>10-81</id>
+                <title>Корректность работы модуля при появлении 2-го HART-мастера</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-576-008A">
         <description>Модуль аналогового ввода с HART</description>
     </module>
     <module type="MK-576-016A">
         <description>Модуль аналогового ввода с HART</description>
+        <tests>
+            <test_case>
+                <id>10-37</id>
+                <title>Запрещение/разрешение работы аналогового входного канала</title>
+            </test_case>
+            <test_case>
+                <id>10-38</id>
+                <title>Прием входными каналами аналогового сигнала</title>
+            </test_case>
+            <test_case>
+                <id>10-39</id>
+                <title>Диагностика аппаратных отказов</title>
+            </test_case>
+            <test_case>
+                <id>10-40</id>
+                <title>Подключение к датчику с выключенным HART</title>
+            </test_case>
+            <test_case>
+                <id>10-41</id>
+                <title>Работа модуля при появлении дополнительного HART-мастера</title>
+            </test_case>
+            <test_case>
+                <id>10-42</id>
+                <title>Проверка корректности работы модуля при длительной нагрузки</title>
+            </test_case>
+            <!-- резерв -->
+            <test_case>
+                <id>10-33</id>
+                <title>Работа с внешними PDM-системами</title>
+            </test_case>
+            <test_case>
+                <id>10-34</id>
+                <title>Проверка стабильности работы модулей при использовании протокола HART 7</title>
+            </test_case>
+            <test_case>
+                <id>10-35</id>
+                <title>Проверка отсутствия ошибок ResponseError и HartFault при отключении модулей от задней шины CAN</title>
+            </test_case>
+        </tests>
     </module>
     <module type="MK-541-002">
         <description>Модуль коммуникационный RS-485</description>
