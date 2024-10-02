@@ -126,24 +126,7 @@ func (r *Report) getTestCase() *[]map[string]string {
 			testCases[delta]["comment"] = item.Комментарий
 
 		}
-	} // [0] - passed; [1] - failed
-
-	/*
-		for _, item := range r.TestCase.CompleteTestCase[1] {
-			delta := len(testCases)
-			testCases = append(testCases, make(map[string]string))
-
-			testCases[delta]["label"] = item.Номер
-			if item.Пройден {
-				testCases[delta]["status"] = "Пройден"
-			} else {
-				testCases[delta]["status"] = "Не пройден"
-			}
-			testCases[delta]["tester"] = item.Ответственный
-			testCases[delta]["comment"] = item.Комментарий
-
-		} // test failes
-	*/
+	}
 	return &testCases
 }
 
