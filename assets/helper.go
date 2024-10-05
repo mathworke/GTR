@@ -7,9 +7,6 @@ import (
 	"os"
 )
 
-/*
-logging
-*/
 const (
 	LOG_PATH = "logs"  // путь/до/папки/логов
 	LOG_FILE = "/.log" // /название_файла.log
